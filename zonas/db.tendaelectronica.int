@@ -1,0 +1,14 @@
+$TTL 38400	; 10 hours 40 minutes
+@		IN SOA	ns.tendaelectronica.int. some.email.address. (
+				10000002   ; serial
+				10800      ; refresh 
+				3600       ; retry 
+				604800     ; expire 
+				38400      ; minimum 
+				)
+@		    IN NS	ns.tendaelectronica.int.
+ns		    IN A		172.16.0.1
+test		IN A		172.16.0.4
+www		    IN A		172.16.0.1
+alias   	IN CNAME	owncloud
+texto		IN TXT		1234ASDF

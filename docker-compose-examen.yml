@@ -1,0 +1,33 @@
+services:
+  rodriguezzz_bind9:
+    container_name: rodriguezzz_bind9
+    image: alpine
+    platform: linux/amd64
+    ports:
+      - "120:120"  # Exponer el puerto 54 para que otros puedan hacer consultas DNS
+    networks:
+      bind9_subnet:
+        ipv4_address: 172.16.0.3  # IP estática del servidor DNS
+    volumes:
+      - ./conf:/etc/bind/  # Montar la configuración del servidor BIND
+      - ./zonas:/var/lib/bind/  # Montar el directorio de zonas
+
+  cliente:
+    container_name: rodriguezzz_alpine
+    image: alpine
+    platform: linux/amd64
+    tty: true
+    stdin_open: true
+    dns:
+      - 172.16.0.3  # El cliente usará el DNS del servidor asir_bind9
+    networks:
+      bind9_subnet:
+        ipv4_address: 172.16.0.2  # IP estática del cliente en la misma subred
+
+networks:
+  bind9_subnet:
+    driver: bridge  # Tipo de red 'bridge'
+    ipam:
+     
+      config:
+        - subnet: "172.16.0.0/16"  # Definir el rango de subrede
